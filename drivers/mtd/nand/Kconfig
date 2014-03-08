@@ -193,24 +193,47 @@ config MTD_NAND_PPCHAMELEONEVB
 	  This enables the NAND flash driver on the PPChameleon EVB Board.
 
 config MTD_NAND_S3C2410
+	tristate "NAND Flash support for Samsung S3C24xx SoCs"
+	depends on ARCH_S3C2410 || ARCH_S3C64XX
+	help
+	  This enables the NAND flash controller on the S3C24xx SoCs
+
+	  No board specific support is done by this driver, each board
+	  must advertise a platform_device for the driver to attach.
+
+config MTD_NAND_S3C
 	tristate "NAND Flash support for Samsung S3C SoCs"
 	depends on ARCH_S3C2410 || ARCH_S3C64XX
 	help
-	  This enables the NAND flash controller on the S3C24xx and S3C64xx
-	  SoCs
+	  This enables the NAND flash controller on the S3C SoCs
 
 	  No board specific support is done by this driver, each board
 	  must advertise a platform_device for the driver to attach.
 
 config MTD_NAND_S3C2410_DEBUG
-	bool "Samsung S3C NAND driver debug"
+	bool "Samsung S3C24xx NAND driver debug"
 	depends on MTD_NAND_S3C2410
+	help
+	  Enable debugging of the S3C24xx NAND driver
+
+config MTD_NAND_S3C_DEBUG
+	bool "Samsung S3C NAND driver debug"
+	depends on MTD_NAND_S3C
 	help
 	  Enable debugging of the S3C NAND driver
 
 config MTD_NAND_S3C2410_HWECC
-	bool "Samsung S3C NAND Hardware ECC"
+	bool "Samsung S3C24xx NAND Hardware ECC"
 	depends on MTD_NAND_S3C2410
+	help
+	  Enable the use of the controller's internal ECC generator when
+	  using NAND. Early versions of the chips have had problems with
+	  incorrect ECC generation, and if using these, the default of
+	  software ECC is preferable.
+
+config MTD_NAND_S3C_HWECC
+	bool "Samsung S3C NAND Hardware ECC"
+	depends on MTD_NAND_S3C
 	help
 	  Enable the use of the controller's internal ECC generator when
 	  using NAND. Early versions of the chips have had problems with

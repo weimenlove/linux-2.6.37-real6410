@@ -154,20 +154,27 @@ static struct s3c_fb_platdata real6410_lcd_pdata __initdata = {
 
 static struct mtd_partition real6410_nand_part[] = {
 	[0] = {
-		.name	= "uboot",
-		.size	= SZ_1M,
-		.offset	= 0,
+        .name       = "uboot",
+        .offset     = 0,
+        .size       = (256*SZ_1K),
+        .mask_flags = MTD_CAP_NANDFLASH,
 	},
 	[1] = {
-		.name	= "kernel",
-		.size	= SZ_2M,
-		.offset	= SZ_1M,
+        .name       = "Kernel",
+        .offset     = (256*SZ_1K),
+        .size       = (4*SZ_1M) - (256*SZ_1K),
+        .mask_flags = MTD_CAP_NANDFLASH,
 	},
 	[2] = {
-		.name	= "rootfs",
-		.size	= MTDPART_SIZ_FULL,
-		.offset	= SZ_1M + SZ_2M,
+        .name       = "cramfs",
+        .offset     = (4*SZ_1M),
+        .size       = (4*SZ_1M),
 	},
+    [3] = {
+        .name       = "ubifs",
+        .offset     = MTDPART_OFS_APPEND,
+        .size       = MTDPART_SIZ_FULL,
+    },
 };
 
 static struct s3c2410_nand_set real6410_nand_sets[] = {
